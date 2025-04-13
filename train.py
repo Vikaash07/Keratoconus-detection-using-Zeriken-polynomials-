@@ -46,14 +46,12 @@ class PlacidoDataset(Dataset):
 
 # Training function
 def train():
-    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-    print(f"Using device: {device}")
+    # device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    # print(f"Using device: {device}")
     
-    # Create dataset directories if they don't exist
-    os.makedirs("placido_dataset/images", exist_ok=True)
-    os.makedirs("placido_dataset/zernike_maps", exist_ok=True)
+    device = torch.device("mps") if torch.backends.mps.is_available() else torch.device("cpu")
     
-    dataset = PlacidoDataset("placido_dataset/images", "placido_dataset/zernike_maps")
+    dataset = PlacidoDataset("images", "zernike_maps")
     
     if len(dataset) == 0:
         print("Error: No images found in dataset directory. Please add images to placido_dataset/images.")
@@ -88,8 +86,7 @@ def train():
         print(f"Epoch [{epoch + 1}/{epochs}], Average Loss: {avg_loss:.4f}")
     
     # Save model weights
-    os.makedirs("placido_dataset/models", exist_ok=True)
-    torch.save(model.state_dict(), "placido_dataset/models/corneal_model.pth")
+    torch.save(model.state_dict(), "models/corneal_model.pth")
     print("✅ Model saved to placido_dataset/models/corneal_model.pth")
 
 if __name__ == "__main__":
