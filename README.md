@@ -7,14 +7,14 @@ This project provides a low-cost, automated method for detecting **keratoconus**
 ## 📁 Folder Structure
 
 project/
-1. images/               # Input Placido ring eye images (JPEG/PNG)
-2. zernike_maps/         # Synthetic 2D curvature maps (from Zernike moments)
-3. models/model.py       # CNN model definition
-4. zernike_utils.py      # Zernike map generator
-5. generate_maps.py      # Converts input images to Zernike maps
-6. train.py              # Trains CNN to predict curvature maps from images
-7. visualize.py          # 3D surface plot of corneal maps
-8. inference.py          # Predicts map from image and evaluates keratoconus
+1. images/                              # Input Placido ring eye images (JPEG/PNG)
+2. zernike_maps/                        # Synthetic 2D curvature maps (from Zernike moments)
+3. models/model.py                      # CNN model definition
+4. zernike_utils.py                     # Zernike map generator
+5. generate_maps.py                     # Converts input images to Zernike maps
+6. train.py                             # Trains CNN to predict curvature maps from images
+7. visualize.py                         # 3D surface plot of corneal maps
+8. inference.py                         # Predicts map from image and evaluates keratoconus
 
 ---
 
