@@ -28,5 +28,5 @@ def plot_3d_surface(height_map, title="Corneal Topography"):
 if __name__ == "__main__":
     # Example usage
     # Make sure you have a .npy file ready at this path
-    sample_map = np.load("placido_dataset/zernike_maps/sample.npy")
+    sample_map = np.load("zernike_maps/WhatsApp Image 2025-04-13 at 22.21.12.npy")
     plot_3d_surface(sample_map)

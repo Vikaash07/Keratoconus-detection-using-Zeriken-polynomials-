@@ -2,7 +2,7 @@
 import os
 from zernike_utils import generate_zernike_map
 
-input_dir = "images"
+input_dir = "images/train"
 output_dir = "zernike_maps"
 
 # Create output directory if it doesn't exist

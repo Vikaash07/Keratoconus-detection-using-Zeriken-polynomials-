@@ -1,8 +1,8 @@
 #inference.py
 import torch
 import numpy as np
-import matplotlib.pyplot as plt
 from PIL import Image
+import matplotlib.pyplot as plt
 from torchvision import transforms
 from model import CornealTopographyCNN  # Import your model
 
@@ -90,14 +90,14 @@ def visualize_prediction(prediction_map, save_path=None):
 
 # Example usage
 if __name__ == "__main__":
-    image_path = "images/YOUR_TEST_IMAGE.jpg"  # Replace with your test image path
+    image_path = "images/test/WhatsApp Image 2025-04-13 at 22.21.27 (1).jpeg"  # Replace with your test image path
     model_path = "models/corneal_model.pth"  # Path to your trained model
     
     # Make prediction
     prediction = predict_corneal_topography(image_path, model_path)
     
     # Visualize results
-    visualize_prediction(prediction, save_path="prediction_result.png")
+    visualize_prediction(prediction, save_path="predictions/prediction_result.png")
     
     # Check for keratoconus indicators
     # This is a simplified approach - in real applications you'd want a more sophisticated analysis
@@ -111,7 +111,9 @@ if __name__ == "__main__":
     
     # Simple threshold-based detection (this is just an example)
     # You should develop more sophisticated criteria based on clinical knowledge
-    if elevation_range > 0.5:  # Arbitrary threshold
-        print("Warning: Possible keratoconus indicators detected. Higher than normal elevation variations.")
+    if elevation_range > 0.4:
+        print("Likely keratoconus")
+    elif elevation_range > 0.3:
+        print("Possibly early keratoconus - recommend further examination.")
     else:
         print("No obvious keratoconus indicators detected.")

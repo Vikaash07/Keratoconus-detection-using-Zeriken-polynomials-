@@ -51,7 +51,7 @@ def train():
     
     device = torch.device("mps") if torch.backends.mps.is_available() else torch.device("cpu")
     
-    dataset = PlacidoDataset("images", "zernike_maps")
+    dataset = PlacidoDataset("images/train", "zernike_maps")
     
     if len(dataset) == 0:
         print("Error: No images found in dataset directory. Please add images to placido_dataset/images.")
