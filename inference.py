@@ -4,7 +4,7 @@ import numpy as np
 from PIL import Image
 import matplotlib.pyplot as plt
 from torchvision import transforms
-from model import CornealTopographyCNN  # Import your model
+from model import CornealTopographyCNN  
 
 def predict_corneal_topography(image_path, model_path):
     """
