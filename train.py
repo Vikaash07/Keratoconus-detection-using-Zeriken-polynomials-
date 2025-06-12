@@ -6,7 +6,7 @@ import torch.nn as nn
 from PIL import Image
 import torch.optim as optim
 from torchvision import transforms
-from model import CornealTopographyCNN  # Fixed import path
+from model import ResNet34Autoencoder
 from torch.utils.data import Dataset, DataLoader
 
 # Custom Dataset for Placido images and corresponding Zernike maps
@@ -28,7 +28,7 @@ class PlacidoDataset(Dataset):
         img_name = self.image_files[idx]
         img_path = os.path.join(self.image_dir, img_name)
         
-        # Handle different possible file extensions
+        # Ensure base name to match .npy Zernike map
         base_name = os.path.splitext(img_name)[0]
         map_path = os.path.join(self.map_dir, f"{base_name}.npy")
         
@@ -39,27 +39,25 @@ class PlacidoDataset(Dataset):
             z_map = torch.tensor(np.load(map_path), dtype=torch.float32).unsqueeze(0)  # [1, 256, 256]
         except FileNotFoundError:
             print(f"Warning: Zernike map not found for {img_name} at {map_path}")
-            # Create a dummy map or raise exception based on your preference
             z_map = torch.zeros((1, 256, 256), dtype=torch.float32)
             
         return image, z_map
 
 # Training function
 def train():
-    # device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-    # print(f"Using device: {device}")
-    
-    device = torch.device("mps") if torch.backends.mps.is_available() else torch.device("cpu")
+    device = torch.device("mps") if torch.backends.mps.is_available() else \
+             torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    print(f"Using device: {device}")
     
     dataset = PlacidoDataset("images/train", "zernike_maps")
     
     if len(dataset) == 0:
-        print("Error: No images found in dataset directory. Please add images to placido_dataset/images.")
+        print("Error: No images found in dataset directory.")
         return
         
     dataloader = DataLoader(dataset, batch_size=8, shuffle=True)
     
-    model = CornealTopographyCNN().to(device)
+    model = ResNet34Autoencoder().to(device)  # ✅ Use ResNet34-based autoencoder
     criterion = nn.MSELoss()
     optimizer = optim.Adam(model.parameters(), lr=0.001)
     
@@ -86,8 +84,9 @@ def train():
         print(f"Epoch [{epoch + 1}/{epochs}], Average Loss: {avg_loss:.4f}")
     
     # Save model weights
+    os.makedirs("models", exist_ok=True)
     torch.save(model.state_dict(), "models/corneal_model.pth")
-    print("✅ Model saved to placido_dataset/models/corneal_model.pth")
+    print("Model saved to models/corneal_model.pth")
 
 if __name__ == "__main__":
     train()

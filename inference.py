@@ -4,7 +4,7 @@ import numpy as np
 from PIL import Image
 import matplotlib.pyplot as plt
 from torchvision import transforms
-from model import CornealTopographyCNN  
+from model import ResNet34Autoencoder  
 
 def predict_corneal_topography(image_path, model_path):
     """
@@ -18,7 +18,7 @@ def predict_corneal_topography(image_path, model_path):
         Predicted topography map as numpy array
     """
     # Load model
-    model = CornealTopographyCNN()
+    model = ResNet34Autoencoder()
     model.load_state_dict(torch.load(model_path, map_location=torch.device('mps')))
     model.eval()
     
